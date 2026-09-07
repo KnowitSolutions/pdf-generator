@@ -79,7 +79,7 @@ namespace Service
 
 			//Applies global mappings first and then the local mappings
 			var form = PdfAcroForm.GetAcroForm(pdf, false);
-			var caseMap = form?.GetFormFields().Keys.ToDictionary(
+			var caseMap = form?.GetAllFormFields().Keys.ToDictionary(
 				key => key.ToUpper(), key => key);
 
 
@@ -87,7 +87,7 @@ namespace Service
 			// Makes Flattening sometimes crash for some reason
 			if (form != null)
 			{
-				foreach (var field in form.GetFormFields().Select(x => x.Key))
+				foreach (var field in form.GetAllFormFields().Select(x => x.Key))
 				{
 					if (form.GetField(field).GetValue() == null)
 						form.GetField(field).SetValue(string.Empty);
