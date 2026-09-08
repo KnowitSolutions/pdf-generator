@@ -16,7 +16,7 @@ stages:
 
 variables:
   VERSION: 1.0.$CI_PIPELINE_IID
-  DOTNET_VERSION: '7.0'
+  DOTNET_VERSION: '10.0'
 
 Build Image:
   extends: .kaniko-build

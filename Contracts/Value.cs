@@ -1,5 +1,3 @@
-using iText.Kernel.Font;
-
 namespace Contracts
 {
 	public class Value
