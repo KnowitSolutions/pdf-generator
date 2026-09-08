@@ -33,7 +33,7 @@ namespace Service
         public static IEnumerable<string> ParseFields(PdfDocument document)
         {
             var form = PdfAcroForm.GetAcroForm(document, false);
-            return form?.GetAllFormFields().Keys ?? Enumerable.Empty<string>();
+            return form?.GetFormFields().Keys ?? Enumerable.Empty<string>();
         }
     }
 }
