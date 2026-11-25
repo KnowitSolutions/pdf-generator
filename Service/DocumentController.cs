@@ -93,7 +93,7 @@ namespace Service
 						form.GetField(field).SetValue(string.Empty);
 				}
 			}
-			
+
 			foreach (var global in loadPdfRequest.Globals)
 			{
 				if (caseMap != null && caseMap.TryGetValue(global.Item1.Name.ToUpper(), out var field))
@@ -103,7 +103,15 @@ namespace Service
 					{
 						ImageData image = ImageDataFactory.Create(decodedImage);
 					}
-					form.GetField(field).SetValue(global.Item2.Values.First().Text);
+
+					try
+					{
+						form.GetField(field).SetValue(global.Item2.Values.First().Text);
+					}
+					catch (Exception ex)
+					{
+						_logger.LogError($"Error setting value for field '{field}'. Field will be skipped. exception was: {ex}");
+					}
 
 				}
 			}
@@ -130,7 +138,7 @@ namespace Service
 						image.SetFixedPosition((float)fieldPlacement.GetAsNumber(0).GetValue(), (float)fieldPlacement.GetAsNumber(1).GetValue());
 						iText.Layout.Document doc = new iText.Layout.Document(pdf);
 						doc.Add(image);
-					}						
+					}
 
 
 					//User defined font and fontsize.
@@ -161,7 +169,7 @@ namespace Service
 						form.GetField(loadPdfRequest.Mappings[index].Field)?.SetValue(values[index].Values[0].Text, pdfFont, loadPdfRequest.Values[index].Values[0].FontSize);
 					}
 
-					// No font found, using default font size and : 
+					// No font found, using default font size and :
 					else if (values[index].Values[0].Text != null)
 						form.GetField(loadPdfRequest.Mappings[index].Field)?.SetValue(values[index].Values[0].Text);
 				}
